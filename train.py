@@ -70,7 +70,7 @@ def train_model(model, dataloader, optimizer, loss_function, device, num_epoch):
     return model
 
 
-def train_init(data_loader, num_out, num_epoch = 25, lr = 0.01):
+def train_init(data_loader, num_out=5, num_epoch = 25, lr = 0.01):
     '''
     This function intialize training process for the given model
     model ResNet152
@@ -85,8 +85,8 @@ def train_init(data_loader, num_out, num_epoch = 25, lr = 0.01):
 
     loss_fn = nn.CrossEntropyLoss()
     optimzer = optim.SGD(model.parameters(), lr = lr, momentum=0.9)
-    #device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    device=torch.device('cpu')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    #device=torch.device('cpu')
     
     # this to keep track
     since = time.time()
@@ -113,10 +113,10 @@ if __name__ == "__main__":
     train_set=ArtImageData(root,transform=transform)
     test_set=ArtImageData(root,transform=transform)
     #train_test_loader
-    train_loader=DataLoader(train_set, batch_size=batch_size)
-    test_loader=DataLoader(test_set, batch_size=batch_size)
+    train_loader=DataLoader(train_set, batch_size=batch_size,shuffle=True)
+    test_loader=DataLoader(test_set, batch_size=batch_size,shuffle=True)
 
     data_loader = {'train': train_loader, 'test': test_loader}
 
     # comment above part and include your data loader above
-    train_init(data_loader, 3 )
+    train_init(data_loader )
