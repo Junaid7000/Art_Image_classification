@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import os
 import time
-
+import cv2
 
 def get_data_to_csv(root_loc):
     ''''
@@ -29,8 +29,15 @@ def get_data_to_csv(root_loc):
             labels_loc = os.path.join(sub_dir, labels)
             #iterate over images
             for images in os.listdir(labels_loc):
-                img_loc_list.append(os.path.join(labels_loc, images))
-                labels_list.append(labels)
+
+                try:
+                    img_loc = os.path.join(labels_loc, images)
+                    img = cv2.imread(img_loc).shape
+                    img_loc_list.append(img_loc)
+                    labels_list.append(labels)
+
+                except:
+                    print('img unavialble')
 
         data_dict = {'img_loc': img_loc_list, 'labels': labels_list}
         df = pd.DataFrame(data_dict)    
@@ -53,7 +60,8 @@ def get_data_to_csv(root_loc):
 
 if __name__ == "__main__":
 
-    root_loc = 'D:/Art data/dataset/dataset_updated'
+    #root_loc = 'D:/Art data/dataset/dataset_updated'
+    root_loc = 'E:/Developer/Machine Learning and Deep Learning/Pytorch_Training/Art_Image_classification/dataset/dataset_updated'
 
     since = time.time()
     get_data_to_csv(root_loc)
